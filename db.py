@@ -57,7 +57,7 @@ def ai_summarize():
     cur.execute("""
     		SELECT id, source_title, source_summary
 		    FROM articles
-		    WHERE source = 'BBC' and sins_summary IS NULL
+		    WHERE source in ('BBC','The Hindu') and sins_summary IS NULL
     """)
 
     rows = cur.fetchall()
@@ -183,5 +183,6 @@ def get_comments(article_id):
 #     conn.close()
 
 #     return df
+
 
 
