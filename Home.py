@@ -198,4 +198,6 @@ try:
 
 except Exception as e:
     print(e)
+    st.writer(e)
     st.warning("Uh-Oh !, You should not see this, please return to home page.")
+
