@@ -5,8 +5,8 @@ import pandas as pd
 DB_CONFIG = {
     "dbname": "sins",
     "user": "postgres",
-    "password": "08112000S@n",
-    "host": "localhost",
+    "password": "Sins@Welcome3!",
+    "host": "db.ykygmtvpzlyenkzazils.supabase.co",
     "port": "5432"
 }
 
@@ -181,4 +181,5 @@ def get_comments(article_id):
 
 #     df = pd.read_sql(query, conn)
 #     conn.close()
+
 #     return df
