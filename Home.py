@@ -94,7 +94,7 @@ try:
 
     if search:
         filtered_df = filtered_df[
-            filtered_df["source_title"].str.contains(search, case=False)
+            filtered_df["sins_title"].str.contains(search, case=False)
         ]
 
     for index, row in filtered_df.iterrows():
@@ -108,7 +108,7 @@ try:
                         st.image(row["source_image_url"], use_container_width=True,)
 
             with col2:
-                st.subheader(row["source_title"])
+                st.subheader(row["sins_title"])
                 st.write(row["sins_summary"])
 
                 st.markdown(f"""
@@ -200,6 +200,7 @@ except Exception as e:
     print(e)
     st.write(e)
     st.warning("Uh-Oh !, You should not see this, please return to home page.")
+
 
 
 
