@@ -4,10 +4,10 @@ import pandas as pd
 
 DB_CONFIG = {
     "dbname": "postgres",
-    "user": "postgres",
+    "user": "postgres.ykygmtvpzlyenkzazils",
     "password": "Sins@Welcome3!",
-    "host": "db.ykygmtvpzlyenkzazils.supabase.co",
-    "port": "5432"
+    "host": "aws-1-ap-southeast-2.pooler.supabase.com",
+    "port": "6543"
 }
 
 
@@ -183,4 +183,5 @@ def get_comments(article_id):
 #     conn.close()
 
 #     return df
+
 
