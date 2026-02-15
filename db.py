@@ -96,7 +96,7 @@ def get_ai_data():
     #cur = conn.cursor()
 
     query = """
-    SELECT id, source, source_title, sins_summary, sins_category, sins_verdict, sins_meter, source_image_url, source_link, cast(fetched_at as date) as fetched_at
+    SELECT id, source, sins_title, sins_summary, sins_category, sins_verdict, sins_meter, source_image_url, source_link, cast(fetched_at as date) as fetched_at
     FROM articles
     where sins_summary is not null
     ORDER BY sins_meter DESC,source_published DESC
@@ -183,6 +183,7 @@ def get_comments(article_id):
 #     conn.close()
 
 #     return df
+
 
 
 
