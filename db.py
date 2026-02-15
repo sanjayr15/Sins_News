@@ -3,7 +3,7 @@ from sins_ai import generate_summary_and_category
 import pandas as pd
 
 DB_CONFIG = {
-    "dbname": "sins",
+    "dbname": "postgres",
     "user": "postgres",
     "password": "Sins@Welcome3!",
     "host": "db.ykygmtvpzlyenkzazils.supabase.co",
@@ -183,3 +183,4 @@ def get_comments(article_id):
 #     conn.close()
 
 #     return df
+
