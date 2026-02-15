@@ -87,7 +87,7 @@ def retrieve_relevant_articles(question, df, selected_id=None, top_k=10):
     # Keyword search (basic version)
     matches = df[
         df["sins_summary"].str.contains(question, case=False, na=False) |
-        df["source_title"].str.contains(question, case=False, na=False) |
+        df["sins_title"].str.contains(question, case=False, na=False) |
         df["sins_category"].str.contains(question, case=False, na=False)
     ].head(top_k)
 
@@ -109,7 +109,7 @@ def get_chat_response(user_question,context_df,selected_id,chat_history):
     for _, row in relevant_articles.iterrows():
         context_text += f"""
         Id:{row['id']}
-        Title: {row['source_title']}
+        Title: {row['sins_title']}
         Summary: {row['sins_summary']}
         Category: {row['sins_category']}
         Verdict: {row['sins_verdict']}
@@ -156,3 +156,4 @@ def get_chat_response(user_question,context_df,selected_id,chat_history):
     )
 
     return response.choices[0].message.content
+
