@@ -157,7 +157,7 @@ try:
                     #st.session_state.messages = []  # reset chat for new article
                     st.switch_page("pages/SinBot.py")
 
-                col3, col4 = st.columns([1],gap='xxsmall')
+                col3, col4 = st.columns([1,1],gap='xxsmall')
                 with col3:
                     like_count = get_like_count(row["id"])
 
@@ -200,5 +200,6 @@ except Exception as e:
     print(e)
     st.write(e)
     st.warning("Uh-Oh !, You should not see this, please return to home page.")
+
 
 
