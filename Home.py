@@ -112,7 +112,6 @@ try:
                 st.write(row["sins_summary"])
 
                 st.markdown(f"""
-                **Category:** {row['sins_category']}  
                 **Sin Verdict:** {row['sins_verdict']}
                 """)
                 
@@ -200,6 +199,7 @@ except Exception as e:
     print(e)
     st.write(e)
     st.warning("Uh-Oh !, You should not see this, please return to home page.")
+
 
 
 
