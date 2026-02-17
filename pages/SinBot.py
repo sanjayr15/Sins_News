@@ -1,4 +1,5 @@
 import streamlit as st
+from db import get_specific_data   # adjust if needed
 from sins_ai import get_chat_response  # adjust import if needed
 from db import get_ai_data
 
@@ -99,8 +100,6 @@ try:
                 st.markdown(msg["content"])
 
    
-except Exception as e:
-    print(e)
-    st.write(e)
+except:
     st.warning("Uh-Oh !, You should not see this, please return to home page.")
      
