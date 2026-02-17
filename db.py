@@ -29,7 +29,7 @@ def get_full_content():
     cur.execute("""
     		SELECT id, source_title, source_link
 		    FROM articles
-		    WHERE source_full_content IS NULL and source = 'BBC'
+		    WHERE source_full_content IS NULL
     """)
 
     rows = cur.fetchall()
@@ -42,7 +42,7 @@ def get_full_content():
             cur.execute("""
                 UPDATE articles
                 set source_full_content = %s
-                where id = %s and source = 'BBC'
+                where id = %s 
             """,(full_content,article_id))
             conn.commit()
     cur.close()
@@ -93,7 +93,7 @@ def ai_summarize():
     cur.execute("""
     		SELECT id, source_title, source_summary
 		    FROM articles
-		    WHERE source = 'BBC' and sins_summary IS NULL
+		    WHERE sins_summary IS NULL
     """)
 
     rows = cur.fetchall()
@@ -238,6 +238,7 @@ def get_comments(article_id):
 #     conn.close()
 
 #     return df
+
 
 
 
