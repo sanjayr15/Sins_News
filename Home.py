@@ -1,9 +1,11 @@
 import streamlit as st
 import psycopg2
 import pandas as pd
-from db import get_ai_data, add_like, get_like_count, add_comment, get_comments
+from db import get_ai_data, add_like, get_like_count, add_comment, get_comments, get_likes_from_db
 from sins_ai import get_chat_response
 from main import main
+
+
 
 try:
 
@@ -22,6 +24,10 @@ try:
     if "comments" not in st.session_state:
         st.session_state.comments = {}
 
+    if "likes_cache" not in st.session_state:
+        st.session_state.likes_cache = get_likes_from_db()
+
+
 
     st.set_page_config(
         page_title="SINS",
@@ -32,42 +38,66 @@ try:
     #st.title("🧠 AI Powered News Intelligence")
     #st.title("SINS - SimplIfied NewS")
     st.markdown("""
-    <style>
+            <style>
 
-    /* Keep Streamlit menu visible */
-    div[data-testid="stHeader"] {
-        z-index: 100;
-    }
+            div[data-testid="stHeader"] {
+                z-index: 100;
+            }
 
-    /* Sticky custom title BELOW the menu */
-    .sticky-title {
-        position: fixed;
-        top: 60px;   /* pushes below Streamlit top bar */
-        left: 0;
-        width: 100%;
-        background-color: #DAE1ED;
-        background: rgba(14,17,23,0.85);
-        backdrop-filter: blur(10px);
-        text-align: center;
-        padding: 15px 0px;
-        font-size: 26px;
-        font-weight: bold;
-        color: white;
-        z-index: 999;
-        border-bottom: 1px solid #333;
-    }
+            .sticky-title {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                height: 70px;
+                background: rgba(14,17,23,0.85);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid #333;
+                z-index: 999;
 
-    /* Push page content down */
-    .main-content {
-        margin-top: 130px;
-    }
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 26px;
+                font-weight: bold;
+            }
 
-    </style>
-    """, unsafe_allow_html=True)
+            .sort-box {
+                position: fixed;
+                top: 75px;
+                right: 40px;
+                width: 200px;
+                z-index: 1000;
+            }
+
+            .main-content {
+                margin-top: 140px;
+            }
+
+            </style>
+            """, unsafe_allow_html=True)
 
     st.markdown('<div class="sticky-title">SINS - SimplAIfied NewS</div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="main-content">', unsafe_allow_html=True)
+    st.markdown('<div class="sort-box">', unsafe_allow_html=True)
+
+    sort_map = {
+        "Sin Meter ↓": ("sins_meter", False),
+        "Sin Meter ↑": ("sins_meter", True),
+        "Newest": ("fetched_at", False),
+        "Oldest": ("fetched_at", True),
+    }
+
+    selected = st.selectbox(
+        "",
+        list(sort_map.keys()),
+        label_visibility="collapsed"
+    )
+
+    column, order = sort_map[selected]
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 
@@ -75,6 +105,8 @@ try:
 
     #Get Data
     df = get_ai_data()
+
+    likes = get_likes_from_db()
 
     if "all_news_df" not in st.session_state:
         st.session_state.all_news_df = df
@@ -96,6 +128,10 @@ try:
         filtered_df = filtered_df[
             filtered_df["sins_title"].str.contains(search, case=False)
         ]
+
+    
+    filtered_df = filtered_df.sort_values(by=column, ascending=order)
+
 
     for index, row in filtered_df.iterrows():
 
@@ -157,13 +193,13 @@ try:
                     st.switch_page("pages/SinBot.py")
 
                 col3, col4 = st.columns([1,1],gap='xxsmall')
-                with col3:
-                    like_count = get_like_count(row["id"])
-
-                    if st.button(f"👍 Like ({like_count})", key=f"like_{row["id"]}"):
-                        add_like(row["id"])
+                with col3: 
+                    #like_count = get_like_count(row["id"]) 
+                    like_count = st.session_state.likes_cache.get(row["id"], 0) 
+                    if st.button(f"👍 Like ({like_count})", key=f"like_{row["id"]}"): 
+                        add_like(row["id"]) 
                         st.rerun()
-
+                        
                     comments = get_comments(row["id"])
                     comment_count = len(comments)
                 
@@ -196,8 +232,6 @@ try:
     st.markdown("</div>", unsafe_allow_html=True)
 
 except Exception as e:
-    print(e)
-    st.write(e)
     st.warning("Uh-Oh !, You should not see this, please return to home page.")
 
 

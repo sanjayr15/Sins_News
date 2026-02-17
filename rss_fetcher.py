@@ -3,6 +3,21 @@ from datetime import datetime
 from config import RSS_FEEDS
 from bs4 import BeautifulSoup
 import hashlib
+from newspaper import Article
+import trafilatura
+
+def fetch_full_article(url):
+    # article = Article(url)
+    # article.download()
+    # article.parse()
+    
+    # return article.text
+
+    downloaded = trafilatura.fetch_url(url)
+    text = trafilatura.extract(downloaded)
+
+    return text
+
 
 
 

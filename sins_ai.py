@@ -45,7 +45,6 @@ def generate_summary_and_category(title, content):
         parsed = json.loads(result)
         return parsed["Title"], parsed["summary"], parsed["category"], parsed["veridct"], parsed["sin_meter"]
     except Exception as e:
-        print(e)
         return None, None, None, None, None
 
 #-------------------------------------------------------------------------------------------
@@ -92,7 +91,7 @@ def retrieve_relevant_articles(question, df, selected_id=None, top_k=10):
     ].head(top_k)
 
     if focused is not None and not focused.empty:
-        matches = pd.concat([focused, matches]).drop_duplicates()
+        matches = focused #pd.concat([focused, matches]).drop_duplicates()
     else:
         matches = df
 
@@ -113,8 +112,10 @@ def get_chat_response(user_question,context_df,selected_id,chat_history):
         Summary: {row['sins_summary']}
         Category: {row['sins_category']}
         Verdict: {row['sins_verdict']}
+        SinMeter: {row['sins_meter']}
+        FullContent : {row['source_full_content']}
         """
-    print(context_text)
+    
     system_message = f"""
     You are a news processing AI. 
     
