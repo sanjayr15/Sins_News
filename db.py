@@ -3,11 +3,11 @@ from sins_ai import generate_summary_and_category
 import pandas as pd
 
 DB_CONFIG = {
-    "dbname": "postgres",
-    "user": "postgres.ykygmtvpzlyenkzazils",
-    "password": "Sins@Welcome3!",
-    "host": "aws-1-ap-southeast-2.pooler.supabase.com",
-    "port": "6543"
+    "dbname": "sins",
+    "user": "postgres",
+    "password": "08112000S@n",
+    "host": "localhost",
+    "port": "5432"
 }
 
 
@@ -57,7 +57,7 @@ def ai_summarize():
     cur.execute("""
     		SELECT id, source_title, source_summary
 		    FROM articles
-		    WHERE source in ('BBC','The Hindu') and sins_summary IS NULL
+		    WHERE source = 'BBC' and sins_summary IS NULL
     """)
 
     rows = cur.fetchall()
@@ -96,7 +96,7 @@ def get_ai_data():
     #cur = conn.cursor()
 
     query = """
-    SELECT id, source, sins_title, sins_summary, sins_category, sins_verdict, sins_meter, source_image_url, source_link, cast(fetched_at as date) as fetched_at
+    SELECT id, source, source_title, sins_summary, sins_category, sins_verdict, sins_meter, source_image_url, source_link, cast(fetched_at as date) as fetched_at
     FROM articles
     where sins_summary is not null
     ORDER BY sins_meter DESC,source_published DESC
@@ -181,9 +181,4 @@ def get_comments(article_id):
 
 #     df = pd.read_sql(query, conn)
 #     conn.close()
-
 #     return df
-
-
-
-

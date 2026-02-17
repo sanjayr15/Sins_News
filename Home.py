@@ -94,7 +94,7 @@ try:
 
     if search:
         filtered_df = filtered_df[
-            filtered_df["sins_title"].str.contains(search, case=False)
+            filtered_df["source_title"].str.contains(search, case=False)
         ]
 
     for index, row in filtered_df.iterrows():
@@ -108,10 +108,11 @@ try:
                         st.image(row["source_image_url"], use_container_width=True,)
 
             with col2:
-                st.subheader(row["sins_title"])
+                st.subheader(row["source_title"])
                 st.write(row["sins_summary"])
 
                 st.markdown(f"""
+                **Category:** {row['sins_category']}  
                 **Sin Verdict:** {row['sins_verdict']}
                 """)
                 
@@ -156,7 +157,7 @@ try:
                     #st.session_state.messages = []  # reset chat for new article
                     st.switch_page("pages/SinBot.py")
 
-                col3, col4 = st.columns([1,1],gap='xxsmall')
+                col3, col4 = st.columns([1],gap='xxsmall')
                 with col3:
                     like_count = get_like_count(row["id"])
 
@@ -195,12 +196,5 @@ try:
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-except Exception as e:
-    print(e)
-    st.write(e)
+except:
     st.warning("Uh-Oh !, You should not see this, please return to home page.")
-
-
-
-
-
